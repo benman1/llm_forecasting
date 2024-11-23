@@ -6,10 +6,11 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 # Related third-party imports
+import requests
 from gnews import GNews
 import newspaper
 from newscatcherapi import NewsCatcherApiClient
-import requests
+from googlenewsdecoder import new_decoderv1
 
 # Local application/library-specific imports
 from config.constants import IRRETRIEVABLE_SITES
@@ -21,10 +22,12 @@ from utils import time_utils, string_utils
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+INTERVAL_TIME = 5  # for article URL decoding; default interval is None, if not specified
 
 # Constants
 if NEWSCATCHER_KEY:
     newscatcherapi = NewsCatcherApiClient(x_api_key=NEWSCATCHER_KEY)
+
 WIKIPEDIA_API_ENDPOINT = "https://en.wikipedia.org/w/api.php"
 
 
@@ -386,6 +389,7 @@ def get_gnews_articles(search_terms, retrieval_dates, max_results=20):
     return retrieved_articles
 
 
+
 def retrieve_gnews_articles_fulldata(
     retrieved_articles, num_articles=5, length_threshold=200
 ):
@@ -419,7 +423,8 @@ def retrieve_gnews_articles_fulldata(
                 continue
             else:  # new article, add to the set of unique urls
                 unique_urls.add(article["url"])
-            full_article = google_news.get_full_article(article["url"])
+            decoded_url = new_decoderv1(article['url'], interval=INTERVAL_TIME)
+            full_article = google_news.get_full_article(decoded_url["decoded_url"])
             logger.info(f"Retrieved full article text for {article['url']}")
             if (
                 full_article is not None
@@ -570,7 +575,7 @@ def retrieve_webpage_from_background(
     urls = get_urls_from_text(background_info)
     articles = []
     for url in urls:
-        article = retrieve_webpage_text(url, closing_date_timestamp)
+        article = retrieve_webpage_text(url, closing_date_timestamp.isoformat())
         if (
             article
             and article.text_cleaned
@@ -801,7 +806,7 @@ def get_articles_from_all_sources(
             )
         )
         return []
-    if queries_nc is not None and len(queries_nc) > 0:
+    if queries_nc is not None and len(queries_nc) > 0 and NEWSCATCHER_KEY:
         articles_nc = get_newscatcher_articles(
             queries_nc,
             retrieval_dates,

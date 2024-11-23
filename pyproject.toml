@@ -39,6 +39,7 @@ dependencies = [
     "pytest",
     "pytest-asyncio",
     "rich",
+    "googlenewsdecoder",
 ]
 
 [tool.setuptools.packages.find]
