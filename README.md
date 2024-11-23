@@ -45,6 +45,11 @@ Install the package in editable mode to allow changes in your code to be immedia
 pip install --editable .
 ```
 
+The lxml project has split off the cleaning of HTML documents into a separate project. You might need to install this separately at the end:
+```
+pip install lxml[html_clean]
+```
+
 ### Usage
 Once the setup is complete, you can start using the package. For example, you can import modules from the forecasting subdirectory as follows:
 ```
