@@ -81,6 +81,10 @@ We welcome contributions to this repository. If you'd like to contribute, please
 
 Please ensure that your code adheres to the project's coding conventions and that you include tests for any new functionality or bug fixes.
 
+## Acknowledgments
+
+This project utilizes the [NewsCatcher API](https://www.newscatcherapi.com/) service for retrieving news articles and headlines. Thanks to the News API team for providing this service.
+
 ## Citation
 If our codebase, dataset, or paper proves fruitful for your work, please consider citing us.
 ```
