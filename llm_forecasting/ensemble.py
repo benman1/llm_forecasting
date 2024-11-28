@@ -1,5 +1,6 @@
 # Standard library imports
 import logging
+from typing import List, Tuple, Optional, Dict
 
 # Related third-party imports
 import numpy as np
@@ -36,22 +37,22 @@ def concatenate_reasonings(reasonings):
 
 
 async def meta_reason(
-    question,
-    background_info,
-    resolution_criteria,
-    today_to_close_date_range,
-    retrieved_info,
+    question: str,
+    background_info: str,
+    resolution_criteria: str,
+    today_to_close_date_range: Tuple[str, str],
+    retrieved_info: str,
     reasoning_prompt_templates,
-    base_model_names=["gpt-4-1106-preview", "claude-2.1"],
+    base_model_names: List[str] = ["gpt-4-1106-preview", "claude-2.1"],
     base_temperature=1.0,  # temperature for the base reasonings
-    aggregation_method="meta",
-    answer_type="probability",
+    aggregation_method: str ="meta",
+    answer_type: str = "probability",
     weights=None,
-    end_words=list(TOKENS_TO_PROBS_DICT["ten_options"].keys()),
+    end_words: List[str] = list(TOKENS_TO_PROBS_DICT["ten_options"].keys()),
     meta_model_name="gpt-4-1106-preview",
     meta_prompt_template=PROMPT_DICT["meta_reasoning"]["0"],
-    meta_temperature=0.2,
-):
+    meta_temperature: Optional[float] = 0.2,
+) -> Dict:
     """
     Given a question and its retrieved articles, elicit model reasonings via
     reasoning_prompts, aggregate the reasonings and return the answer.
@@ -62,7 +63,7 @@ async def meta_reason(
         resolution_criteria (str): Resolution criteria for the question.
         retrieved_info (str): Retrieved articles from our news retrieval system
         (a concatenation of the article titles and summaries).
-        today_to_close_date_range (str): A string containing the today's date
+        today_to_close_date_range Tuple[str, str]: A string containing the today's date
         and the close date.
         retrieved_info (str): Retrieved articles from our news retrieval system.
         reasoning_prompt_templates (list[list[[str]]): A list of reasoning prompts; string templates

@@ -2,7 +2,7 @@
 import asyncio
 import logging
 import time
-from typing import Optional, List
+from typing import Optional, List, Tuple
 
 # Related third-party imports
 import openai
@@ -347,7 +347,7 @@ async def async_make_forecast(
     question: str,
     background_info: str,
     resolution_criteria: str,
-    dates: str,
+    dates: Tuple[str, str],
     retrieved_info: str,
     reasoning_prompt_templates: List[str],
     model_name: Optional[str] = "gpt-4-1106-preview",
