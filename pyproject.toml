@@ -40,6 +40,7 @@ dependencies = [
     "pytest-asyncio",
     "rich",
     "googlenewsdecoder",
+    "py-clob-client",
 ]
 
 [tool.setuptools.packages.find]
