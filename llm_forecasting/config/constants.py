@@ -107,7 +107,7 @@ MODEL_NAME_TO_SOURCE = {
     "zero-one-ai/Yi-34B-Chat": TOGETHER_AI_SOURCE,
     "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO": TOGETHER_AI_SOURCE,
     "NousResearch/Nous-Hermes-2-Yi-34B": TOGETHER_AI_SOURCE,
-
+    "bitnet-m7-70m.Q8_0.gguf": LLAMACPP_SOURCE,
 }
 
 ANTHROPIC_RATE_LIMIT = 5

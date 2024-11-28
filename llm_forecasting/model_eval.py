@@ -16,6 +16,7 @@ from config.constants import (
     ANTHROPIC_SOURCE,
     TOGETHER_AI_SOURCE,
     GOOGLE_SOURCE,
+    LLAMACPP_SOURCE,
 )
 from config.keys import (
     ANTHROPIC_KEY,
@@ -24,6 +25,7 @@ from config.keys import (
     GOOGLE_AI_KEY,
 )
 from utils import model_utils, string_utils
+from utils.llamacpp import LlamaCppModel
 
 # Setup code
 if ANTHROPIC_KEY:
@@ -40,7 +42,7 @@ if TOGETHER_KEY:
         api_key=TOGETHER_KEY,
         base_url="https://api.together.xyz/v1",
     )
-    
+
 if GOOGLE_AI_KEY:
     google_ai.configure(api_key=GOOGLE_AI_KEY)
 
@@ -310,6 +312,14 @@ async def get_async_response(
                     max_tokens=max_tokens,
                 )
                 return chat_completion.choices[0].message.content
+            elif model_source == LLAMACPP_SOURCE:
+                # as a quick hack this is fine for now:
+                llm_model = LlamaCppModel(
+                    model_path=model_name,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                )
+                return llm_model.generate_text(prompt=prompt)
             else:
                 logger.debug("Not a valid model source: {model_source}")
                 return ""
