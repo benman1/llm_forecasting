@@ -6,7 +6,7 @@ import time
 # Local application/library-specific imports
 from config.constants import MODEL_TOKEN_LIMITS
 import model_eval
-from prompts.prompts import PROMPT_DICT
+from prompts.prompt_collection import PROMPT_DICT
 from utils import model_utils
 
 # Set up logging

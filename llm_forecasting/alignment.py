@@ -5,7 +5,7 @@ import logging
 import model_eval
 import ranking
 from utils import string_utils
-from prompts.prompts import PROMPT_DICT
+from prompts.prompt_collection import PROMPT_DICT
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

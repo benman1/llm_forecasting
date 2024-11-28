@@ -12,7 +12,7 @@ from config.constants import (
 import ensemble
 import ranking
 import summarize
-from utils import db_utils
+from utils import db_utils, visualize_utils
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -93,8 +93,9 @@ async def retrieve_and_forecast(
     assert isinstance(
         reason_config["BASE_REASONING_PROMPT_TEMPLATES"], list
     ), "BASE_REASONING_PROMPT_TEMPLATES must be a list."
-    assert len(reason_config["BASE_REASONING_PROMPT_TEMPLATES"]) == len(
-        reason_config["BASE_REASONING_MODEL_NAMES"]
+    assert (
+        len(reason_config["BASE_REASONING_PROMPT_TEMPLATES"])
+        == len(reason_config["BASE_REASONING_MODEL_NAMES"])
     ), "BASE_REASONING_PROMPT_TEMPLATES and BASE_REASONING_MODEL_NAMES must have the same length."
 
     question = question_dict["question"]

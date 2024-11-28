@@ -7,8 +7,8 @@ import numpy as np
 # Local application/library-specific imports
 from config.constants import TOKENS_TO_PROBS_DICT
 import model_eval
-from prompts.prompts import PROMPT_DICT
-from utils import string_utils, utils
+from prompts.prompt_collection import PROMPT_DICT
+from utils import string_utils, data_structures
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -240,7 +240,7 @@ def aggregate_base_reasonings(
             "meta_reasoning": None,
         }
     elif answer_type == "tokens" and aggregation_method == "vote-or-median":
-        meta_prediction = utils.most_frequent_item(
+        meta_prediction = data_structures.most_frequent_item(
             flattened_all_base_predictions
         )  # majority vote
         if meta_prediction is None or not string_utils.is_string_in_list(

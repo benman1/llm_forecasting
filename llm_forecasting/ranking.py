@@ -13,8 +13,8 @@ from config.constants import CHARS_PER_TOKEN, DEFAULT_RETRIEVAL_CONFIG
 import information_retrieval
 import model_eval
 import summarize
-from prompts.prompts import PROMPT_DICT
-from utils import metrics_utils, string_utils, utils
+from prompts.prompt_collection import PROMPT_DICT
+from utils import metrics_utils, string_utils, data_structures
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -389,8 +389,8 @@ async def retrieve_summarize_and_rank_articles(
         resolution_criteria=resolution_criteria,
     )
     # Flatten and deduplicate the search queries
-    search_queries_list_nc = utils.flatten_list(search_queries_list_nc)
-    search_queries_list_gnews = utils.flatten_list(search_queries_list_gnews)
+    search_queries_list_nc = data_structures.flatten_list(search_queries_list_nc)
+    search_queries_list_gnews = data_structures.flatten_list(search_queries_list_gnews)
     search_queries_list_nc = list(set(search_queries_list_nc))
     search_queries_list_gnews = list(set(search_queries_list_gnews))
     logger.info(f"Search queries for NC: {search_queries_list_nc}")
@@ -532,15 +532,15 @@ async def all_retrieve_summarize_rank_articles(
     """
     articles_by_question = {}
     for index in range(len(questions)):
-        articles_by_question[questions[index]] = (
-            await retrieve_summarize_and_rank_articles(
-                questions[index],
-                background_infos[index],
-                date_ranges[index],
-                num_articles,
-                use_newscatcher,
-                return_intermediates,
-                config,
-            )
+        articles_by_question[
+            questions[index]
+        ] = await retrieve_summarize_and_rank_articles(
+            questions[index],
+            background_infos[index],
+            date_ranges[index],
+            num_articles,
+            use_newscatcher,
+            return_intermediates,
+            config,
         )
     return articles_by_question

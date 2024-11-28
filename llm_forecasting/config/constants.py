@@ -1,6 +1,6 @@
 # Local application/library specific imports
 from config.keys import keys
-from prompts.prompts import PROMPT_DICT
+from prompts.prompt_collection import PROMPT_DICT
 from utils import db_utils
 
 OAI_SOURCE = "OAI"

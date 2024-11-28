@@ -6,8 +6,8 @@ import re
 # Local application/library-specific imports
 from config.constants import S3, S3_BUCKET_NAME
 import model_eval
-from prompts.prompts import PROMPT_DICT
-import db_utils, time_utils, string_utils
+from prompts.prompt_collection import PROMPT_DICT
+from utils import db_utils, time_utils, string_utils
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -28,7 +28,7 @@ def get_formatted_data(
     This function reads data from S3, processes it, and structures it for training purposes.
     It calculates retrieval dates and filters out data based on these dates. The function can
     optionally return raw question data.
-    
+
     Also, the function can optionally take in the |data| directly.
 
     Parameters:
