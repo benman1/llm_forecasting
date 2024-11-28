@@ -4,6 +4,7 @@ import re
 
 # Third-party imports
 import urllib.parse
+from typing import List, Optional, Tuple
 
 # Local application/library-specific imports
 from config.constants import TOKENS_TO_PROBS_DICT
@@ -48,20 +49,20 @@ def find_end_word(paragraph, end_words, window_size=50):
 
 
 def get_prompt(
-    prompt_template,
-    fields,
-    question=None,
-    data_source=None,
-    dates=None,
-    background=None,
-    resolution_criteria=None,
-    num_keywords=None,
+    prompt_template: str,
+    fields: List,
+    question: Optional[str] = None,
+    data_source: Optional[str] = None,
+    dates: Optional[Tuple[str, str]] = None,
+    background: Optional[str] = None,
+    resolution_criteria: Optional[str] = None,
+    num_keywords: int = None,
     retrieved_info=None,
     reasoning=None,
-    article=None,
-    summary=None,
-    few_shot_examples=None,
-    max_words=None,
+    article: Optional[str] = None,
+    summary: Optional[str] =None,
+    few_shot_examples: Optional[List] = None,
+    max_words: Optional[int] = None,
 ):
     """
     Fill in a prompt template with specific data based on provided fields.
@@ -74,12 +75,12 @@ def get_prompt(
         question (str, optional): The question text for the 'QUESTION'
             placeholder.
         data_source (str, optional): The platform (e.g. "metaculus").
+        dates (tuple or list of strs, optional): Start and end dates for the
+            'DATES' placeholder (length == 2)
         background (str, optional): Background information for the 'BACKGROUND'
             placeholder.
         resolution_criteria (str, optional): Resolution criteria for the
             'RESOLUTION_CRITERIA' placeholder.
-        dates (tuple or list of strs, optional): Start and end dates for the
-            'DATES' placeholder (length == 2)
         retrieved_info (str, optional): Information text for the 'RETRIEVED_INFO'
             placeholder.
         reasoning (str, optional): Reasoning text for the 'REASONING' placeholder.

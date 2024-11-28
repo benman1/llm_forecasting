@@ -7,7 +7,7 @@ import re
 from config.constants import S3, S3_BUCKET_NAME
 import model_eval
 from prompts.prompts import PROMPT_DICT
-from utils import db_utils, time_utils, string_utils
+import db_utils, time_utils, string_utils
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)

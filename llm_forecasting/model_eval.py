@@ -2,6 +2,7 @@
 import asyncio
 import logging
 import time
+from typing import Optional, List
 
 # Related third-party imports
 import openai
@@ -211,12 +212,12 @@ def get_response_from_google_model(
 
 
 def get_response_from_model(
-    model_name,
-    prompt,
-    system_prompt="",
-    max_tokens=2000,
-    temperature=0.8,
-    wait_time=30,
+    model_name: str,
+    prompt: str,
+    system_prompt: Optional[str] = "",
+    max_tokens: Optional[int] = 2000,
+    temperature: Optional[float] = 0.8,
+    wait_time: Optional[int] = 30,
 ):
     """
     Make an API call to the specified model and retry on failure after a
@@ -252,16 +253,16 @@ def get_response_from_model(
 
 
 async def get_async_response(
-    prompt,
-    model_name="gpt-3.5-turbo-1106",
-    temperature=0.0,
-    max_tokens=8000,
+    prompt: str,
+    model_name: Optional[str] = "gpt-3.5-turbo-1106",
+    temperature: Optional[float] = 0.0,
+    max_tokens: Optional[int] = 8000,
 ):
     """
     Asynchronously get a response from the OpenAI API.
 
     Args:
-        prompt (str): Fully specififed prompt to use for the API call.
+        prompt (str): Fully specified prompt to use for the API call.
         model_name (str, optional): Name of the model to use (such as "gpt-3.5-turbo").
         temperature (float, optional): Sampling temperature.
         max_tokens (int, optional): Maximum number of tokens to sample.
@@ -319,12 +320,13 @@ async def get_async_response(
             continue
 
 
-def get_openai_embedding(texts, model="text-embedding-3-large"):
+def get_openai_embedding(texts: List[str], model: str = "text-embedding-3-large"):
     """
     Query OpenAI's text embedding model to get the embedding of the given text.
 
     Args:
-        texts (list of str): List of texts to embed.
+        texts (list of str): List of texts to embed.\
+        model (str): a model to use in OpenAI embeddings.
 
     Returns:
         list of Embedding objects: List of embeddings, where embedding[i].embedding is a list of floats.
@@ -335,22 +337,22 @@ def get_openai_embedding(texts, model="text-embedding-3-large"):
             embedding = oai.embeddings.create(input=texts, model=model)
             return embedding.data
         except Exception as e:
-            logger.info(f"erorr message: {e}")
+            logger.info(f"error message: {e}")
             logger.info("Waiting for 30 seconds before retrying...")
             time.sleep(30)
             continue
 
 
 async def async_make_forecast(
-    question,
-    background_info,
-    resolution_criteria,
-    dates,
-    retrieved_info,
-    reasoning_prompt_templates,
-    model_name="gpt-4-1106-preview",
-    temperature=1.0,
-    return_prompt=False,
+    question: str,
+    background_info: str,
+    resolution_criteria: str,
+    dates: str,
+    retrieved_info: str,
+    reasoning_prompt_templates: List[str],
+    model_name: Optional[str] = "gpt-4-1106-preview",
+    temperature: Optional[float] = 1.0,
+    return_prompt: Optional[bool] = False,
 ):
     """
     Asynchronously make forecasts using the given information.
