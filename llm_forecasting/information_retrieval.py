@@ -3,6 +3,8 @@ import asyncio
 import logging
 import re
 from datetime import datetime
+from typing import Optional, List, Tuple, Union
+
 from dateutil.relativedelta import relativedelta
 
 # Related third-party imports
@@ -22,7 +24,9 @@ from utils import time_utils, string_utils
 # Set up logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-INTERVAL_TIME = 5  # for article URL decoding; default interval is None, if not specified
+INTERVAL_TIME = (
+    5  # for article URL decoding; default interval is None, if not specified
+)
 
 # Constants
 if NEWSCATCHER_KEY:
@@ -389,7 +393,6 @@ def get_gnews_articles(search_terms, retrieval_dates, max_results=20):
     return retrieved_articles
 
 
-
 def retrieve_gnews_articles_fulldata(
     retrieved_articles, num_articles=5, length_threshold=200
 ):
@@ -423,7 +426,7 @@ def retrieve_gnews_articles_fulldata(
                 continue
             else:  # new article, add to the set of unique urls
                 unique_urls.add(article["url"])
-            decoded_url = new_decoderv1(article['url'], interval=INTERVAL_TIME)
+            decoded_url = new_decoderv1(article["url"], interval=INTERVAL_TIME)
             full_article = google_news.get_full_article(decoded_url["decoded_url"])
             logger.info(f"Retrieved full article text for {article['url']}")
             if (
@@ -629,12 +632,12 @@ def get_search_queries(
 
 
 async def async_get_search_queries(
-    prompts,
-    num_keywords=3,
-    model_name="gpt-4-1106-preview",
-    temperature=0.0,
-    return_response=False,
-):
+    prompts: List[str],
+    num_keywords: int = 3,
+    model_name: Optional[str] = "gpt-4-1106-preview",
+    temperature: Optional[float] = 0.0,
+    return_response: Optional[bool] = False,
+) -> Union[List[List[str]], Tuple[List[List[str]], List[str]]]:
     """
     Same as get_search_queries, but async.
 
